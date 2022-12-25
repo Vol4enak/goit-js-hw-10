@@ -1,17 +1,18 @@
+const debounce = require('lodash.debounce');
 import './css/styles.css';
-
 const DEBOUNCE_DELAY = 300;
 
-// ,capital,,population,languages
-fetch(
-  'https://restcountries.com/v3.1/name/peru?fields=capital,population,languages,flags'
-)
-  .then(response => {
-    console.log(response.json);
+import { getFetch, clearHtml } from './fetchCountries';
 
-    return response.json();
-  })
-  .then(countrie => {
-    console.log(countrie);
-  });
-  
+const inputArea = document.querySelector('#search-box');
+inputArea.addEventListener('input', debounce(zxc, DEBOUNCE_DELAY));
+
+function zxc(e) {
+  e.preventDefault();
+  if (e.target.value.trim() === '') {
+    clearHtml();
+    return;
+  }
+  getFetch(e);
+}
+console.log(inputArea);
