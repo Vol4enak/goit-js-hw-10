@@ -15,4 +15,4 @@ function zxc(e) {
   }
   getFetch(e);
 }
-console.log(inputArea);
+
