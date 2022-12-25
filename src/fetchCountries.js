@@ -9,7 +9,9 @@ const getFetch = function (e) {
   )
     .then(response => {
       if (!response.ok) {
-        Notify.failure('Oops, there is no country with that name');
+        throw new Error(
+          Notify.failure('Oops, there is no country with that name')
+        );
       }
       return response.json();
     })
