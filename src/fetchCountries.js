@@ -2,23 +2,17 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 const listOfcounries = document.querySelector('.country-list');
 const InfoAboutCountrie = document.querySelector('.country-info');
 
-const getFetch = function (e) {
-  let countrieOfInput = e.target.value.trim();
+const getFetch = function (countrieOfInput) {
   fetch(
     `https://restcountries.com/v3.1/name/${countrieOfInput}?fields=capital,population,languages,flags,name`
   )
     .then(response => {
       if (!response.ok) {
-  
-        Notify.failure('Oops, there is no country with that name')
-      
+        throw new Error(response.statusText);
       }
       return response.json();
     })
     .then(countrie => {
-      if (countrieOfInput === '') {
-        clearHtml();
-      }
       if (countrie.length > 10) {
         Notify.info(
           'Too many matches found. Please enter a more specific name.'
@@ -28,7 +22,14 @@ const getFetch = function (e) {
       } else {
         renderCountriesInfo(countrie);
       }
-    });
+    })
+    .catch(errorType => {
+      if (errorType.message === 'Not Found') {
+        Notify.failure('Oops, there is no country with that name');
+      } else {
+        Notify.failure('Oops, something has gone wrong we are trying to fix it.');
+      }
+      });
 };
 
 function renderCountriesInfo(countrie) {

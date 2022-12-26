@@ -5,13 +5,14 @@ const DEBOUNCE_DELAY = 300;
 import { getFetch, clearHtml } from './fetchCountries';
 
 const inputArea = document.querySelector('#search-box');
-inputArea.addEventListener('input', debounce(zxc, DEBOUNCE_DELAY));
+inputArea.addEventListener('input', debounce(countrieFinder, DEBOUNCE_DELAY));
 
-function zxc(e) {
+function countrieFinder(e) {
   e.preventDefault();
-  if (e.target.value.trim() === '') {
+  const query = e.target.value.trim();
+  if (!query.length) {
     clearHtml();
     return;
   }
-  getFetch(e);
+  getFetch(query);
 }
